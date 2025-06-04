@@ -8,6 +8,11 @@ class LoginForm extends Component {
     password: '',
   }
 
+  onSubmitSuccess = () => {
+    const {history} = this.props
+    history.replace('/')
+  }
+
   submitForm = async event => {
     event.preventDefault() //prevents default form submission behavior (page reload)
     const {username, password} = this.state
@@ -19,7 +24,11 @@ class LoginForm extends Component {
     }
     const response = await fetch(url, options) // send request to API
     const data = await response.json() // parse response as JSO
-    console.log(data)
+
+    if (response.ok === true) {
+      //if the respeonse is suceess we need to route to Home Route,
+      this.onSubmitSuccess()
+    }
   }
 
   onChangeUsername = event => {
