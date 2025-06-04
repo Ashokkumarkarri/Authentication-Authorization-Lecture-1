@@ -8,6 +8,20 @@ class LoginForm extends Component {
     password: '',
   }
 
+  submitForm = async event => {
+    event.preventDefault() //prevents default form submission behavior (page reload)
+    const {username, password} = this.state
+    const userDetails = {username, password} //we need to send the data to API, for that i made this obj
+    const url = 'https://apis.ccbp.in/login'
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(userDetails), // convert object to JSON string
+    }
+    const response = await fetch(url, options) // send request to API
+    const data = await response.json() // parse response as JSO
+    console.log(data)
+  }
+
   onChangeUsername = event => {
     this.setState({username: event.target.value})
   }
@@ -65,7 +79,7 @@ class LoginForm extends Component {
           className="login-image"
           alt="website login"
         />
-        <form className="form-container">
+        <form className="form-container" onSubmit={this.submitForm}>
           <img
             src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-logo-img.png"
             className="login-website-logo-desktop-image"
